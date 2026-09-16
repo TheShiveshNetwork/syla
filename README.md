@@ -81,8 +81,12 @@ syla talks to an agent one of three ways. `native` adapters call an agent's own 
 | --- | --- | --- | --- |
 | Claude Code | `--agent claude` | native | `claude` CLI installed and signed in |
 | Codex | `--agent codex` | native | `codex` CLI installed and signed in |
+| Copilot | `--agent copilot` | native | `copilot` CLI installed and signed in |
+| Cursor | `--agent cursor` | native | `cursor-agent` (or `agent`) CLI installed and signed in |
 | Gemini | `--agent gemini` | native or acp | `gemini` CLI installed, or reachable via `acp:gemini` |
+| Opencode | `--agent opencode` | native or acp | opencode installed and configured at least one usable model provider first |
 | Pi | `--agent pi` | native | `pi` CLI installed with a configured provider |
+| RovoDev | `--agent rovodev` | native | `acli` CLI installed and signed in |
 | Hermes | `--agent hermes` | pty (pending an adapter contribution) | see [Contributing an agent](#contributing-an-agent) |
 | any ACP target | `--agent acp:<target-or-command>` | acp | the target must speak ACP; a quoted custom command is also accepted |
 
