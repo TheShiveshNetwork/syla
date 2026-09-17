@@ -4,8 +4,26 @@ on:
   pull_request:
     types: [closed]
     branches: [master, main]
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+      - "**.png"
+      - "**.jpg"
+      - "**.svg"
+      - "LICENSE*"
+      - ".gitignore"
+      - "CHANGELOG.md"
   push:
     branches: [master, main]
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+      - "**.png"
+      - "**.jpg"
+      - "**.svg"
+      - "LICENSE*"
+      - ".gitignore"
+      - "CHANGELOG.md"
 
 permissions:
   contents: write
@@ -37,13 +55,16 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git fetch --tags --force
 
-      # ── Auto version bump on PR merge ──────────────────────────────
+      # ── Auto version bump on merge/push ────────────────────────────
       # Starts at v0.0.0, bumps MINOR (v0.0.0 -> v0.1.0 -> v0.2.0 ...)
       # If HEAD already has a tag (you manually pushed v1.2.3), that tag wins
       # and no auto-bump happens — the pushed tag will trigger release.yml.
-      - name: Auto bump minor version on PR merge
+      # Runs on PR merge AND on direct push to master (if you push directly)
+      - name: Auto bump minor version
         id: bump
-        if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
+        if: |
+          (github.event_name == 'pull_request' && github.event.pull_request.merged == true) ||
+          (github.event_name == 'push' && github.actor != 'github-actions[bot]')
         run: |
           set -e
           # If this merge commit already points at a tag, respect it (manual tag overrides auto)
