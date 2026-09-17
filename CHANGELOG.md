@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.1] - 2026-09-17
+
+### Documentation
+
+- Update CHANGELOG.md for v0.1.0 [skip ci] ([0c011d8](syla/commit/0c011d89e8accbb295f8cf97eeccfb4126e0d265))
+
+
+### Other
+
+- Bump patch instead of minor for auto versioning (#1) ([8915a7b](syla/commit/8915a7beb45ce4bcd0bf1d7b66de5f660efc1476))
+
 ## [0.1.0] - 2026-09-17
 
 ### Bug Fixes
