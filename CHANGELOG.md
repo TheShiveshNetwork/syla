@@ -2,11 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [0.1.0] - 2026-09-17
+
+### Bug Fixes
+
+- Fixchangelog bump on both PR merges and direct pushes, ignore md/assets ([33afdc0](syla/commit/33afdc089f650c6311107af316adf5b32d4d5187))
+
 
 ### Documentation
 
 - Update CHANGELOG.md [skip ci] ([b7d9488](syla/commit/b7d9488dd7040a77bdf8641647169cacf601ef1f))
+
+- Update CHANGELOG.md [skip ci] ([02e735c](syla/commit/02e735c394d39a62411616d1b8a5620fdc9f44ae))
 
 
 ### Other
