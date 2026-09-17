@@ -435,6 +435,7 @@ func (e *Engine) Status() RunState {
 
 func (e *Engine) RunID() string { return e.cfg.RunID }
 func (e *Engine) RunDir() string { return e.cfg.RunDir }
+func (e *Engine) StartedAt() time.Time { return e.budget.Start }
 
 func (e *Engine) SetStatusForTUI(iter int, status string) {
 	e.state.Iteration = iter

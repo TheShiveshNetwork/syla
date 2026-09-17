@@ -1,4 +1,29 @@
-# syla — see you later, alligator
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TheShiveshNetwork/syla/master/static/alli-the-gator.png" width="160" alt="Alli the Gator — syla mascot" />
+</p>
+
+<h1 align="center">syla — see you later, alligator</h1>
+
+<p align="center">
+  <em>Run any AI agent in a supervised, resumable loop — overnight, unattended, without losing work when your terminal closes.</em>
+</p>
+
+<p align="center">
+  <a href="https://golang.org"><img src="https://img.shields.io/badge/Go-1.23+-00ADD8?style=flat-square&logo=go&logoColor=white" alt="Go version" /></a>
+  <a href="https://github.com/TheShiveshNetwork/syla/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-7CFFC4?style=flat-square" alt="License: MIT" /></a>
+  <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-2a3430?style=flat-square" alt="Platform" />
+  <img src="https://img.shields.io/badge/TUI-Bubble_Tea-7CFFC4?style=flat-square" alt="TUI" />
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TheShiveshNetwork/syla/master/static/tui-screenshot.png" width="780" alt="syla TUI — Alli the Gator running" />
+</p>
+
+<p align="center">
+  <sub>Alli the Gator supervises your loop — detach anytime, reattach with <code>syla attach</code>.</sub>
+</p>
+
+---
 
 syla runs any AI agent in a supervised, resumable loop so it can work unattended — overnight, or until a budget, an iteration count, or a condition is met — without the run silently dying if your terminal closes or your laptop tries to sleep.
 
