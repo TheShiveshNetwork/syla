@@ -56,11 +56,11 @@ jobs:
           git fetch --tags --force
 
       # ── Auto version bump on merge/push ────────────────────────────
-      # Starts at v0.0.0, bumps MINOR (v0.0.0 -> v0.1.0 -> v0.2.0 ...)
+      # Starts at v0.0.0, bumps PATCH (v0.0.0 -> v0.0.1 -> v0.0.2 ...)
       # If HEAD already has a tag (you manually pushed v1.2.3), that tag wins
       # and no auto-bump happens — the pushed tag will trigger release.yml.
       # Runs on PR merge AND on direct push to master (if you push directly)
-      - name: Auto bump minor version
+      - name: Auto bump patch version
         id: bump
         if: |
           (github.event_name == 'pull_request' && github.event.pull_request.merged == true) ||
@@ -83,9 +83,8 @@ jobs:
           ver=${latest#v}
           IFS='.' read -r major minor patch <<< "$ver"
           major=${major:-0}; minor=${minor:-0}; patch=${patch:-0}
-          # Bump MINOR, reset patch (v0.0.0 -> v0.1.0)
-          minor=$((minor + 1))
-          patch=0
+          # Bump PATCH (v0.0.0 -> v0.0.1) - keeps major/minor, increments patch
+          patch=$((patch + 1))
           next_tag="v${major}.${minor}.${patch}"
           echo "Next tag: $next_tag"
 
