@@ -1,0 +1,122 @@
+version: 2
+
+project_name: syla
+
+before:
+  hooks:
+    - go mod tidy
+    - go vet ./...
+
+builds:
+  - id: syla
+    main: ./cmd/syla
+    binary: syla
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    # windows/arm64 not yet widely needed but supported - keep it, remove ignore if you want
+    # ignore:
+    #   - goos: windows
+    #     goarch: arm64
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.date={{.Date}}
+      - -X main.builtBy=goreleaser
+    flags:
+      - -trimpath
+
+archives:
+  - id: syla
+    ids:
+      - syla
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - README.md
+      - LICENSE*
+      - docs/**
+
+checksum:
+  name_template: "checksums.txt"
+  algorithm: sha256
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - "^ci:"
+  groups:
+    - title: "Features"
+      regexp: "^feat.*:.*"
+      order: 0
+    - title: "Bug Fixes"
+      regexp: "^fix.*:.*"
+      order: 1
+    - title: "Performance"
+      regexp: "^perf.*:.*"
+      order: 2
+    - title: "Reverts"
+      regexp: "^revert.*:.*"
+      order: 3
+    - title: "Other Changes"
+      regexp: ".*"
+      order: 999
+
+release:
+  github:
+    owner: TheShiveshNetwork
+    name: syla
+  prerelease: auto
+  draft: false
+  discussion_category_name: Announcements
+  header: |
+    ## syla {{.Tag}} — see you later, alligator
+
+    <p align="center"><img src="https://raw.githubusercontent.com/TheShiveshNetwork/syla/{{.Tag}}/static/alli-the-gator.png" width="100" alt="Alli the Gator" /></p>
+
+    Alli supervised this release. See `syla status` for runs, `syla attach` to reattach.
+
+  footer: |
+    ---
+
+    **Full Changelog**: https://github.com/TheShiveshNetwork/syla/compare/{{ .PreviousTag }}...{{ .Tag }}
+
+brews:
+  - repository:
+      owner: TheShiveshNetwork
+      name: homebrew-syla
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    homepage: "https://github.com/TheShiveshNetwork/syla"
+    description: "Run any AI agent in a supervised, resumable loop"
+    license: "MIT"
+    test: |
+      system "#{bin}/syla", "--help"
+    skip_upload: auto
+
+sboms:
+  - artifacts: archive
+
+# nfpms for deb/rpm/apk if needed - disabled by default, enable when you have a package repo
+# nfpms:
+#   - id: deb
+#     builds: [syla]
+#     vendor: TheShiveshNetwork
+#     homepage: https://github.com/TheShiveshNetwork/syla
+#     maintainer: Shivesh
+#     description: syla - supervised agent loops
+#     formats: [deb, rpm]

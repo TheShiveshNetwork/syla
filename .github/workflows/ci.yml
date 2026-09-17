@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master, main]
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [master, main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: build / vet / test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.27"
+          cache: true
+
+      - name: Go version
+        run: go version
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Staticcheck
+        uses: dominikh/staticcheck-action@v1
+        with:
+          version: "latest"
+        continue-on-error: true
+
+      - name: Check formatting
+        run: |
+          if [ -n "$(gofmt -l .)" ]; then
+            echo "gofmt needs to run:"
+            gofmt -l .
+            exit 1
+          fi
+
+      - name: Build
+        run: |
+          go build -o syla ./cmd/syla
+          ./syla --help
+          go build -o /tmp/mock-tui ./cmd/mock-tui
+
+      - name: Test
+        run: go test ./... -count=1 -race -coverprofile=coverage.out
+
+      - name: E2E
+        run: go test ./e2e -v -count=1
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage
+          path: coverage.out
+          if-no-files-found: ignore
+
+  lint-docs:
+    name: lint docs
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check README and static assets exist
+        run: |
+          test -f README.md
+          test -f static/alli-the-gator.png
+          test -f static/tui-screenshot.png
+          echo "docs ok"
